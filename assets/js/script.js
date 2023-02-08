@@ -75,34 +75,36 @@ const renderChart = async(divisa)=>{
     };
 
         
-const convertir = ()=>{
+const convert = ()=>{
     let btnConvertir = document.getElementById('btnConvertir');
-    const apiURL = 'https://mindicador.cl/api/'
     
     btnConvertir.addEventListener('click', ()=>{
         let montoInput = document.getElementById('monto')
         let divisaInput  = document.getElementById('divisa');
+        let {value} = divisaInput;
+        const apiURL = `https://mindicador.cl/api/${value}`
         let html = 0;
         try {
             divisasFetch(apiURL)
                     .then(response=>{
+                        console.log(response.serie)
                         let resultadoHTML = document.getElementById('resultado');
                         let monto = Number(montoInput.value);
-                        switch (divisaInput.value) {
+                        switch (value) {
                             case "dolar":                             
-                                let divisaUSD = response.dolar.valor; 
+                                let divisaUSD = response.serie[0].valor;                     
                                 html = (monto/divisaUSD).toFixed(3);                                                          
                                 renderChart("dolar");                                                            
                                 break;
                                 
                             case "euro":  
-                                let divisaEU = response.euro.valor; 
+                                let divisaEU = response.serie[0].valor; 
                                 html = (monto/divisaEU).toFixed(3);
                                 renderChart("euro");                            
                                 break;
                                 
                             case "uf":
-                                let divisaUF = response.uf.valor; 
+                                let divisaUF = response.serie[0].valor; 
                                 html = (monto/divisaUF).toFixed(3);
                                 renderChart("uf");
                                 break;               
@@ -120,4 +122,4 @@ const convertir = ()=>{
     };
 });
 };
-convertir();
+convert();
