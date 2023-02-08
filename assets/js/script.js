@@ -17,8 +17,8 @@ const chartFetch = async(divisa)=>{
             let daysDate = [];
             let i = 0;
             for(i=0; i<10; i++){
-                    daysValue.push(date[i].valor);
-                    daysDate.push(date[i].fecha);
+                    daysValue.unshift(date[i].valor);
+                    daysDate.unshift(date[i].fecha);
 
                 }
             return daysValue;         
@@ -31,7 +31,7 @@ const chartFetch = async(divisa)=>{
             tenDaysAfter.setDate(today.getDate()-9);
             
             while (today >= tenDaysAfter) {
-                labels.push(today.toLocaleDateString());
+                labels.unshift(today.toLocaleDateString());
                 today.setDate(today.getDate()-1);
             };
         };
@@ -91,19 +91,19 @@ const convertir = ()=>{
                         switch (divisaInput.value) {
                             case "dolar":                             
                                 let divisaUSD = response.dolar.valor; 
-                                html = monto/divisaUSD;                                                          
+                                html = (monto/divisaUSD).toFixed(3);                                                          
                                 renderChart("dolar");                                                            
                                 break;
                                 
                             case "euro":  
                                 let divisaEU = response.euro.valor; 
-                                html = monto/divisaEU;
+                                html = (monto/divisaEU).toFixed(3);
                                 renderChart("euro");                            
                                 break;
                                 
                             case "uf":
                                 let divisaUF = response.uf.valor; 
-                                html = monto/divisaUF;
+                                html = (monto/divisaUF).toFixed(3);
                                 renderChart("uf");
                                 break;               
                                          
