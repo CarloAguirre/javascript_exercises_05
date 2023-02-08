@@ -1,0 +1,22 @@
+body{
+    height: 100vh;
+    background-color: rgb(29, 27, 27) !important;
+    color: white !important;
+}
+main{
+    background-color:gray;
+    padding: 3rem;
+    border-radius: 8px;
+}
+hr{
+    color: white !important;
+}
+main h3, main h5{
+    color: white;
+}
+main, body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

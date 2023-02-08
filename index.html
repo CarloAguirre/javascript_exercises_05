@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>API's</title>
+</head>
+<body>
+    <hr>
+    <h1>Conversor de monedas Nacional</h1>
+    <hr>
+
+    <main>
+        <h3>Pesos (CLP)</h3>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="monto">
+          </div>
+          <h5>Moneda a convertir</h5>
+        <div class="input-group mb-3">
+            <select class="form-select" id="divisa">
+              <option selected disabled>Selecciona...</option>
+              <option value="dolar">Dolar (USD)</option>
+              <option value="euro">Euro (EU)</option>
+              <option value="uf">Unidad de Fomento (UF)</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-info" id="btnConvertir">Convertir</button>
+          <div id="resultado"></div>
+    </main>
+
+        <div class="grafica mt-4">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <img id="img"></img>
+
+    <!-- My Script -->
+    <script src="./assets/js/script.js"></script>
+    <!-- charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    
+</body>
+</html>
