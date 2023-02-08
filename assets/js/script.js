@@ -1,44 +1,42 @@
 
 
-let divisasFetch = async(url)=>{
+const divisasFetch = async(url)=>{
     const res = await fetch(url)
     const data = await res.json()
     return data;
 };
 
-let chartFetch = async(divisa)=>{
+const chartFetch = async(divisa)=>{
     try {
         const apiTenDaysBeforeURL = `https://www.mindicador.cl/api/${divisa}/2023`
         
         const res = await fetch(apiTenDaysBeforeURL)
         const data = await res.json().then(response=>{      
-            let date = response.serie
-            console.log(date)
-            let daysValue = []
-            let daysDate = []
+            let date = response.serie;
+            let daysValue = [];
+            let daysDate = [];
             let i = 0;
             for(i=0; i<10; i++){
-                    daysValue.push(date[i].valor)
-                    daysDate.push(date[i].fecha)
+                    daysValue.push(date[i].valor);
+                    daysDate.push(date[i].fecha);
 
                 }
-            return daysValue ;         
+            return daysValue;         
         })
-        const labels = []
+        const labels = [];
 
         const labelsGenerator = ()=>{
             let today = new Date();
             let tenDaysAfter = new Date();
-            tenDaysAfter.setDate(today.getDate()-9)
+            tenDaysAfter.setDate(today.getDate()-9);
             
             while (today >= tenDaysAfter) {
-                labels.push(today.toLocaleDateString())
+                labels.push(today.toLocaleDateString());
                 today.setDate(today.getDate()-1);
-            }
-        }
+            };
+        };
         labelsGenerator();
 
-        console.log(labels)
         const datasets = [
             {
             label: "Ultimos 10 dias",
@@ -49,27 +47,37 @@ let chartFetch = async(divisa)=>{
             return { labels, datasets };
 
     } catch (error) {
-        alert(error)
+        alert(error);
         
+        };
+};
+
+const renderChart = async(divisa)=>{
+    try {
+        const data = await chartFetch(divisa);
+        const config = {
+        type: "line",
+        data
+        };        
+
+        let chartStatus = Chart.getChart("myChart"); 
+        if (chartStatus != undefined) {
+        chartStatus.destroy();
         }
-    }
+        let myChart = document.getElementById("myChart");
+        myChart.style.backgroundColor = "white";
+        new Chart(myChart, config);     
 
-async function renderChart(divisa) {
-    const data = await chartFetch(divisa);
-    const config = {
-    type: "line",
-    data
+    } catch (error) {
+        alert(error);
     };
-    const myChart = document.getElementById("myChart");
-    myChart.style.backgroundColor = "white";
-    new Chart(myChart, config);
-    }
+
+    };
 
         
-let convertir = ()=>{
+const convertir = ()=>{
     let btnConvertir = document.getElementById('btnConvertir');
     const apiURL = 'https://mindicador.cl/api/'
-
     
     btnConvertir.addEventListener('click', ()=>{
         let montoInput = document.getElementById('monto')
@@ -78,41 +86,38 @@ let convertir = ()=>{
         try {
             divisasFetch(apiURL)
                     .then(response=>{
-                        let resultadoHTML = document.getElementById('resultado')
-                        let monto = Number(montoInput.value)
+                        let resultadoHTML = document.getElementById('resultado');
+                        let monto = Number(montoInput.value);
                         switch (divisaInput.value) {
-                            case "dolar":
-                                let divisaUSD = response.dolar.valor 
-                                html = monto/divisaUSD
-                                
-                                renderChart("dolar")
+                            case "dolar":                             
+                                let divisaUSD = response.dolar.valor; 
+                                html = monto/divisaUSD;                                                          
+                                renderChart("dolar");                                                            
                                 break;
                                 
-                            case "euro":
-                                let divisaEU = response.euro.valor 
-                                html = monto/divisaEU
-                                renderChart("euro")
+                            case "euro":  
+                                let divisaEU = response.euro.valor; 
+                                html = monto/divisaEU;
+                                renderChart("euro");                            
                                 break;
                                 
                             case "uf":
-                                let divisaUF = response.uf.valor 
-                                html = monto/divisaUF
-                                renderChart("uf")
+                                let divisaUF = response.uf.valor; 
+                                html = monto/divisaUF;
+                                renderChart("uf");
                                 break;               
                                          
                             default:
                                 break;
                         }
 
-                        resultadoHTML.innerHTML = `<h3> Resultado: ${html}<h3/>`   
+                        resultadoHTML.innerHTML = `<h3> Resultado: ${html}<h3/>`;   
                     })
             
             
     } catch (error) {
-        alert(error)
-    }
-})
-
-
-}
+        alert(error);
+    };
+});
+};
 convertir();
