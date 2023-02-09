@@ -44,8 +44,7 @@ const chartFetch = async(divisa)=>{
             return { labels, datasets };
 
     } catch (error) {
-        alert(error);
-        
+        alert(error);       
         };
 };
 
@@ -68,8 +67,7 @@ const renderChart = async(divisa)=>{
     } catch (error) {
         alert(error);
     };
-
-    };
+};
 
         
 const convert = ()=>{
@@ -81,28 +79,30 @@ const convert = ()=>{
         let {value} = divisaInput;
         const apiURL = `https://mindicador.cl/api/${value}`
         let html = 0;
+
         try {
             divisasFetch(apiURL)
                     .then(response=>{
-                        console.log(response.serie)
                         let resultadoHTML = document.getElementById('resultado');
                         let monto = Number(montoInput.value);
+                        let htmlTemplate = (divisa)=>{
+                            let divisaTipo = response.serie[0].valor;                     
+                            html = (monto/divisaTipo).toFixed(3);                                                          
+                            renderChart(divisa);   
+                        }
                         switch (value) {
                             case "dolar":                             
-                                let divisaUSD = response.serie[0].valor;                     
-                                html = (monto/divisaUSD).toFixed(3);                                                          
+                                htmlTemplate("dolar")                                                        
                                 renderChart("dolar");                                                            
                                 break;
                                 
                             case "euro":  
-                                let divisaEU = response.serie[0].valor; 
-                                html = (monto/divisaEU).toFixed(3);
+                                htmlTemplate("dolar")                                                                                        
                                 renderChart("euro");                            
                                 break;
                                 
                             case "uf":
-                                let divisaUF = response.serie[0].valor; 
-                                html = (monto/divisaUF).toFixed(3);
+                                htmlTemplate("dolar") 
                                 renderChart("uf");
                                 break;               
                                          
