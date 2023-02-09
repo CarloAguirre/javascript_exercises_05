@@ -14,12 +14,9 @@ const chartFetch = async(divisa)=>{
         const data = await res.json().then(response=>{      
             let date = response.serie;
             let daysValue = [];
-            let daysDate = [];
             let i = 0;
             for(i=0; i<10; i++){
                     daysValue.unshift(date[i].valor);
-                    daysDate.unshift(date[i].fecha);
-
                 }
             return daysValue;         
         })
