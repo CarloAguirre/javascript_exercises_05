@@ -79,7 +79,6 @@ const convert = ()=>{
         let {value} = divisaInput;
         const apiURL = `https://mindicador.cl/api/${value}`
         let html = 0;
-
         try {
             divisasFetch(apiURL)
                     .then(response=>{
@@ -89,7 +88,7 @@ const convert = ()=>{
                             let divisaTipo = response.serie[0].valor;                     
                             html = (monto/divisaTipo).toFixed(3);                                                          
                             renderChart(divisa);   
-                        }
+                        };
                         switch (value) {
                             case "dolar":                             
                                 htmlTemplate("dolar")                                                        
@@ -97,12 +96,12 @@ const convert = ()=>{
                                 break;
                                 
                             case "euro":  
-                                htmlTemplate("dolar")                                                                                        
+                                htmlTemplate("euro")                                                                                        
                                 renderChart("euro");                            
                                 break;
                                 
                             case "uf":
-                                htmlTemplate("dolar") 
+                                htmlTemplate("uf") 
                                 renderChart("uf");
                                 break;               
                                          
@@ -111,9 +110,8 @@ const convert = ()=>{
                         }
 
                         resultadoHTML.innerHTML = `<h3> Resultado: ${html}<h3/>`;   
-                    })
-            
-            
+                    });
+                       
     } catch (error) {
         alert(error);
     };
