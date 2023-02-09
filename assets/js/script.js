@@ -1,9 +1,14 @@
 
 
 const divisasFetch = async(url)=>{
-    const res = await fetch(url)
-    const data = await res.json()
-    return data;
+    try {
+        const res = await fetch(url)
+        const data = await res.json()
+        return data;
+       
+    } catch (error) {
+        alert(error)
+    }
 };
 
 const chartFetch = async(divisa)=>{
@@ -73,48 +78,44 @@ const renderChart = async(divisa)=>{
 const convert = ()=>{
     let btnConvertir = document.getElementById('btnConvertir');
     
-    btnConvertir.addEventListener('click', ()=>{
+    btnConvertir.addEventListener('click', async()=>{
         let montoInput = document.getElementById('monto')
         let divisaInput  = document.getElementById('divisa');
         let {value} = divisaInput;
         const apiURL = `https://mindicador.cl/api/${value}`
         let html = 0;
-        try {
-            divisasFetch(apiURL)
-                    .then(response=>{
-                        let resultadoHTML = document.getElementById('resultado');
-                        let monto = Number(montoInput.value);
-                        let htmlTemplate = (divisa)=>{
-                            let divisaTipo = response.serie[0].valor;                     
-                            html = (monto/divisaTipo).toFixed(3);                                                          
-                            renderChart(divisa);   
-                        };
-                        switch (value) {
-                            case "dolar":                             
-                                htmlTemplate("dolar")                                                        
-                                renderChart("dolar");                                                            
-                                break;
-                                
-                            case "euro":  
-                                htmlTemplate("euro")                                                                                        
-                                renderChart("euro");                            
-                                break;
-                                
-                            case "uf":
-                                htmlTemplate("uf") 
-                                renderChart("uf");
-                                break;               
-                                         
-                            default:
-                                break;
-                        }
+        
+        await divisasFetch(apiURL)
+                .then(response=>{
+                    let resultadoHTML = document.getElementById('resultado');
+                    let monto = Number(montoInput.value);
+                    let htmlTemplate = (divisa)=>{
+                        let divisaValor = response.serie[0].valor;                     
+                        html = (monto/divisaValor).toFixed(3);                                                          
+                        renderChart(divisa);   
+                    };
+                    switch (value) {
+                        case "dolar":                             
+                            htmlTemplate("dolar")                                                        
+                            renderChart("dolar");                                                            
+                            break;
+                            
+                        case "euro":  
+                            htmlTemplate("euro")                                                                                        
+                            renderChart("euro");                            
+                            break;
+                            
+                        case "uf":
+                            htmlTemplate("uf") 
+                            renderChart("uf");
+                            break;               
+                                        
+                        default:
+                            break;
+                    }
 
-                        resultadoHTML.innerHTML = `<h3> Resultado: ${html}<h3/>`;   
-                    });
-                       
-    } catch (error) {
-        alert(error);
-    };
-});
+                    resultadoHTML.innerHTML = `<h3> Resultado: ${html}<h3/>`;   
+                });                       
+    });
 };
 convert();
