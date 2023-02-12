@@ -13,7 +13,7 @@ const divisasFetch = async(url)=>{
 
 const chartFetch = async(divisa)=>{
     try {
-        const apiTenDaysBeforeURL = `https://www.mindicador.cl/api/${divisa}/2023`
+        const apiTenDaysBeforeURL = `https://www.mindicador.cl/api/${divisa}`
         
         const labels = [];
         const res = await fetch(apiTenDaysBeforeURL)
@@ -22,7 +22,7 @@ const chartFetch = async(divisa)=>{
             let date = response.serie;
             let daysValue = [];
             let i = 0;
-            for(i=1; i<11; i++){
+            for(i=0; i<10; i++){
                     daysValue.unshift(date[i].valor);
 
                     labels.unshift(date[i].fecha.slice(0, 10))
