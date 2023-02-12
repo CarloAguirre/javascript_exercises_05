@@ -22,7 +22,6 @@ const chartFetch = async(url)=>{
             let i = 0;
             for(i=0; i<10; i++){
                     daysValue.unshift(date[i].valor);
-
                     labels.unshift(date[i].fecha.slice(0, 10))
                 }
             return daysValue;         
@@ -82,21 +81,13 @@ const convert = ()=>{
                         let divisaValor = response.serie[0].valor;                     
                         html = (monto/divisaValor).toFixed(3);                                                          
                     };
-                    switch (value) {
-                        case "dolar":                             
-                            htmlTemplate("dolar")                                                        
-                            renderChart(apiURL);                                                            
-                            break;
-                            
-                        case "euro":  
-                            htmlTemplate("euro")                                                                                        
-                            renderChart(apiURL);                            
-                            break;
-                                  
-                        default:
-                            break;
+                    if(value != "placeholder") {                       
+                        htmlTemplate()                                                        
+                        renderChart(apiURL);                                                            
+                    }else{
+                        alert("no haz seleccionado ninguna divisa")
+                        return;
                     }
-
                     resultadoHTML.innerHTML = `<h3> Resultado: ${html}<h3/>`;   
                 });                       
     });
