@@ -96,12 +96,7 @@ const convert = ()=>{
                             htmlTemplate("euro")                                                                                        
                             renderChart("euro");                            
                             break;
-                            
-                        case "uf":
-                            htmlTemplate("uf") 
-                            renderChart("uf");
-                            break;               
-                                        
+                                  
                         default:
                             break;
                     }
