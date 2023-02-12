@@ -11,12 +11,10 @@ const divisasFetch = async(url)=>{
     }
 };
 
-const chartFetch = async(divisa)=>{
-    try {
-        const apiTenDaysBeforeURL = `https://www.mindicador.cl/api/${divisa}`
-        
+const chartFetch = async(url)=>{
+    try {       
         const labels = [];
-        const res = await fetch(apiTenDaysBeforeURL)
+        const res = await fetch(url)
         const data = await res.json().then(response=>{    
             console.log(response)  
             let date = response.serie;
@@ -45,9 +43,9 @@ const chartFetch = async(divisa)=>{
         };
 };
 
-const renderChart = async(divisa)=>{
+const renderChart = async(url)=>{
     try {
-        const data = await chartFetch(divisa);
+        const data = await chartFetch(url);
         const config = {
         type: "line",
         data
@@ -65,7 +63,6 @@ const renderChart = async(divisa)=>{
         alert(error);
     };
 };
-
         
 const convert = ()=>{
     let btnConvertir = document.getElementById('btnConvertir');
@@ -81,20 +78,19 @@ const convert = ()=>{
                 .then(response=>{
                     let resultadoHTML = document.getElementById('resultado');
                     let monto = Number(montoInput.value);
-                    let htmlTemplate = (divisa)=>{
+                    let htmlTemplate = ()=>{
                         let divisaValor = response.serie[0].valor;                     
                         html = (monto/divisaValor).toFixed(3);                                                          
-                        renderChart(divisa);   
                     };
                     switch (value) {
                         case "dolar":                             
                             htmlTemplate("dolar")                                                        
-                            renderChart("dolar");                                                            
+                            renderChart(apiURL);                                                            
                             break;
                             
                         case "euro":  
                             htmlTemplate("euro")                                                                                        
-                            renderChart("euro");                            
+                            renderChart(apiURL);                            
                             break;
                                   
                         default:
