@@ -17,17 +17,19 @@ const chartFetch = async(divisa)=>{
         
         const labels = [];
         const res = await fetch(apiTenDaysBeforeURL)
-        const data = await res.json().then(response=>{      
+        const data = await res.json().then(response=>{    
+            console.log(response)  
             let date = response.serie;
             let daysValue = [];
             let i = 0;
-            for(i=0; i<10; i++){
+            for(i=1; i<11; i++){
                     daysValue.unshift(date[i].valor);
+
                     labels.unshift(date[i].fecha.slice(0, 10))
                 }
             return daysValue;         
         });
-        
+
         const datasets = [
             {
             label: "Ultimos 10 dias",
@@ -35,6 +37,7 @@ const chartFetch = async(divisa)=>{
             data
             }
             ];
+            
             return { labels, datasets };
 
     } catch (error) {
