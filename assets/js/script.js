@@ -3,6 +3,7 @@
 const divisasFetch = async(url)=>{
     try {
         const res = await fetch(url)
+        console.log(res)
         const data = await res.json()
         return data;
        
@@ -11,22 +12,21 @@ const divisasFetch = async(url)=>{
     }
 };
 
-const chartFetch = async(url)=>{
+const chartFetch = async(response)=>{
     try {       
         const labels = [];
-        const res = await fetch(url)
-        const data = await res.json().then(response=>{    
-            console.log(response)  
+        const data = [];
+        const dataGenerator = ()=>{
             let date = response.serie;
             let daysValue = [];
-            let i = 0;
-            for(i=0; i<10; i++){
-                    daysValue.unshift(date[i].valor);
-                    labels.unshift(date[i].fecha.slice(0, 10))
-                }
-            return daysValue;         
-        });
-
+           let i = 0;
+           for(i=0; i<10; i++){
+                   data.unshift(date[i].valor);
+                   labels.unshift(date[i].fecha.slice(0, 10))
+               }         
+        }
+        dataGenerator();   
+        
         const datasets = [
             {
             label: "Ultimos 10 dias",
@@ -42,9 +42,9 @@ const chartFetch = async(url)=>{
         };
 };
 
-const renderChart = async(url)=>{
+const renderChart = async(response)=>{
     try {
-        const data = await chartFetch(url);
+        const data = await chartFetch(response);
         const config = {
         type: "line",
         data
@@ -83,7 +83,7 @@ const convert = ()=>{
                     };
                     if(value != "placeholder") {                       
                         htmlTemplate()                                                        
-                        renderChart(apiURL);                                                            
+                        renderChart(response);                                                            
                     }else{
                         alert("no haz seleccionado ninguna divisa")
                         return;
