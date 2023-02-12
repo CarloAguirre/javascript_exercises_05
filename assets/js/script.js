@@ -15,6 +15,7 @@ const chartFetch = async(divisa)=>{
     try {
         const apiTenDaysBeforeURL = `https://www.mindicador.cl/api/${divisa}/2023`
         
+        const labels = [];
         const res = await fetch(apiTenDaysBeforeURL)
         const data = await res.json().then(response=>{      
             let date = response.serie;
@@ -22,23 +23,11 @@ const chartFetch = async(divisa)=>{
             let i = 0;
             for(i=0; i<10; i++){
                     daysValue.unshift(date[i].valor);
+                    labels.unshift(date[i].fecha.slice(0, 10))
                 }
             return daysValue;         
-        })
-        const labels = [];
-
-        const labelsGenerator = ()=>{
-            let today = new Date();
-            let tenDaysAfter = new Date();
-            tenDaysAfter.setDate(today.getDate()-9);
-            
-            while (today >= tenDaysAfter) {
-                labels.unshift(today.toLocaleDateString());
-                today.setDate(today.getDate()-1);
-            };
-        };
-        labelsGenerator();
-
+        });
+        
         const datasets = [
             {
             label: "Ultimos 10 dias",
