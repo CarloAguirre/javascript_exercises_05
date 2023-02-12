@@ -3,7 +3,6 @@
 const divisasFetch = async(url)=>{
     try {
         const res = await fetch(url)
-        console.log(res)
         const data = await res.json()
         return data;
        
@@ -12,34 +11,28 @@ const divisasFetch = async(url)=>{
     }
 };
 
-const chartFetch = async(response)=>{
-    try {       
-        const labels = [];
-        const data = [];
-        const dataGenerator = ()=>{
-            let date = response.serie;
-            let daysValue = [];
-           let i = 0;
-           for(i=0; i<10; i++){
-                   data.unshift(date[i].valor);
-                   labels.unshift(date[i].fecha.slice(0, 10))
-               }         
+const chartFetch = (response)=>{
+    const labels = [];
+    const data = [];
+    const dataGenerator = ()=>{
+        let date = response.serie;
+        let i = 0;
+        for(i=0; i<10; i++){
+                data.unshift(date[i].valor);
+                labels.unshift(date[i].fecha.slice(0, 10))
+            }         
+    }
+    dataGenerator();   
+    
+    const datasets = [
+        {
+        label: "Ultimos 10 dias",
+        borderColor: "rgb(255, 99, 132)",
+        data
         }
-        dataGenerator();   
+        ];
         
-        const datasets = [
-            {
-            label: "Ultimos 10 dias",
-            borderColor: "rgb(255, 99, 132)",
-            data
-            }
-            ];
-            
-            return { labels, datasets };
-
-    } catch (error) {
-        alert(error);       
-        };
+        return { labels, datasets };
 };
 
 const renderChart = async(response)=>{
